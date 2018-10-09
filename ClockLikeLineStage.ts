@@ -9,7 +9,8 @@ class ClockLikeLineStage {
 
     canvas : HTMLCanvasElement = document.createElement('canvas')
     context : CanvasRenderingContext2D
-
+    cll : ClockLikeLine = new ClockLikeLine()
+    animator : Animator = new Animator()
     initCanvas() {
         this.canvas.width = w
         this.canvas.height = h
@@ -20,11 +21,19 @@ class ClockLikeLineStage {
     render() {
         this.context.fillStyle = '#212121'
         this.context.fillRect(0, 0, w, h)
+        this.cll.draw(this.context)
     }
 
     handleTap() {
         this.canvas.onmousedown = () => {
-
+            this.cll.startUpdating(() => {
+                this.animator.start(() => {
+                    this.render()
+                    this.cll.update(() => {
+                        this.animator.stop()
+                    })
+                })
+            })
         }
     }
 
