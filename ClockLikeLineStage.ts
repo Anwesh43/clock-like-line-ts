@@ -31,6 +31,7 @@ class ClockLikeLineStage {
                     this.render()
                     this.cll.update(() => {
                         this.animator.stop()
+                        this.render()
                     })
                 })
             })
@@ -108,13 +109,14 @@ class CLLNode {
         const gap = w / (nodes + 1)
         const weightFactors = [30, 60]
         const lengthFactors = [4, 2]
+        const caps = ['butt', 'round']
         context.strokeStyle = '#BDBDBD'
         const angles = getAngles(4, 30)
         context.save()
         context.translate(gap * this.i + gap, h/2)
         for (var j = 0; j < 2; j++) {
             const sc = Math.min(0.5, Math.max(this.state.scale - 0.5 * j, 0)) * 2
-            context.lineCap = 'round'
+            context.lineCap = caps[j]
             context.lineWidth = Math.min(w, h) / weightFactors[j]
             context.save()
             context.rotate(angles[j] * Math.PI/180 * sc)
